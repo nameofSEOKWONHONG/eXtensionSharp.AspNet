@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+
+        <Copyright>seokwon hong</Copyright>
+        <Product>eXtensionSharp.AspNet</Product>
+        <Version>0.0.1</Version>
+        <Title>eXtensionSharp.AspNet</Title>
+        <Description>asp.net extensions</Description>
+        <PackageProjectUrl>https://github.com/nameofSEOKWONHONG/eXtensionSharp.AspNet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/nameofSEOKWONHONG/eXtensionSharp.AspNet</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="eXtensionSharp" Version="1.0.0.8" />
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+</Project>
