@@ -1,5 +1,9 @@
 ﻿using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Primitives;
 
 namespace eXtensionSharp.AspNet;
@@ -90,5 +94,92 @@ public static class HttpContextExtensions
         if (context.User.Identity.xIsEmpty()) return false;
         
         return context.User.Identity!.IsAuthenticated;
+    }
+
+    /// <summary>
+    /// get method (get, post, update ....)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetMethod(this HttpContext context)
+    {
+        return context.Request.Method;
+    }
+
+    /// <summary>
+    /// get controller name;
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetControllerName(this HttpContext context)
+    {
+        if (context.xIsEmpty()) return default;
+        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerName;
+    }
+
+    /// <summary>
+    /// get controller full name (import namespace path)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetControllerFullName(this HttpContext context)
+    {
+        if (context.xIsEmpty()) return default;
+        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerTypeInfo.FullName;
+    }
+
+    /// <summary>
+    /// get action name
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetActionName(this HttpContext context)
+    {
+        if (context.xIsEmpty()) return default;
+        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ActionName;
+    }
+
+    /// <summary>
+    /// get user agent(header:User-Agent)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetUserAgent(this HttpContext context)
+    {
+        context.vTryGetRequestHeader("User-Agent", out var v);
+        return v;
+    }
+
+    /// <summary>
+    /// get accept encoding(header:Accept-Encoding)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetAcceptEncoding(this HttpContext context)
+    {
+        context.vTryGetRequestHeader("Accept-Encoding", out var v);
+        return v;
+    }
+
+    /// <summary>
+    /// get accept encoding(header:Accept-Language)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetAcceptLanguage(this HttpContext context)
+    {
+        context.vTryGetRequestHeader("Accept-Language", out var v);
+        return v;
+    }
+
+    /// <summary>
+    /// get accept encoding(header:Referer)
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string vGetReferer(this HttpContext context)
+    {
+        context.vTryGetRequestHeader("Referer", out var v);
+        return v;
     }
 }
