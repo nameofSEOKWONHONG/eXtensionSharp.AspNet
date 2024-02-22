@@ -12,7 +12,7 @@ public static class SessionExtensions
     /// <param name="key"></param>
     /// <param name="data"></param>
     /// <typeparam name="T"></typeparam>
-    public static void vSet<T>(this ISession session, string key, T data)
+    public static void xSet<T>(this ISession session, string key, T data)
     {
         if (session.Keys.Any(m => m.Equals(key, StringComparison.OrdinalIgnoreCase)))
         {
@@ -28,9 +28,9 @@ public static class SessionExtensions
     /// <param name="key"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T vGet<T>(this ISession session, string key)
+    public static T xGet<T>(this ISession session, string key)
     {
-        session.vTryGet<T>(key, out T value);
+        session.xTryGet<T>(key, out T value);
         return value!;
     }
 
@@ -42,7 +42,7 @@ public static class SessionExtensions
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static bool vTryGet<T>(this ISession session, string key, out T value)
+    public static bool xTryGet<T>(this ISession session, string key, out T value)
     {
         value = default;
         

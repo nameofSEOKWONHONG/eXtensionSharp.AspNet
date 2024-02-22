@@ -15,21 +15,21 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static bool vIsHttps(this HttpContext context) => context.Request.IsHttps;
+    public static bool xIsHttps(this HttpContext context) => context.Request.IsHttps;
     
     /// <summary>
     /// get request scheme
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetBaseScheme(this HttpContext context) => $"{context.Request.Scheme}";
+    public static string xGetBaseScheme(this HttpContext context) => $"{context.Request.Scheme}";
 
     /// <summary>
     /// get request host
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetBaseHost(this HttpContext context) => $"{context.Request.Host}";
+    public static string xGetBaseHost(this HttpContext context) => $"{context.Request.Host}";
 
     /// <summary>
     /// get request header value
@@ -38,7 +38,7 @@ public static class HttpContextExtensions
     /// <param name="headerName"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool vTryGetRequestHeader(this HttpContext context, string headerName, out StringValues value) => context.Request.Headers.TryGetValue(headerName, out value);
+    public static bool xTryGetRequestHeader(this HttpContext context, string headerName, out StringValues value) => context.Request.Headers.TryGetValue(headerName, out value);
 
     /// <summary>
     /// get user claim role exist
@@ -46,7 +46,7 @@ public static class HttpContextExtensions
     /// <param name="context"></param>
     /// <param name="role"></param>
     /// <returns></returns>
-    public static bool vHasRole(this HttpContext context, string role)
+    public static bool xHasRole(this HttpContext context, string role)
     {
         if (context.User.xIsEmpty()) return false;
         if (context.User.Identity.xIsEmpty()) return false;
@@ -61,7 +61,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static IEnumerable<string> vGetRoles(this HttpContext context)
+    public static IEnumerable<string> xGetRoles(this HttpContext context)
     {
         if (context.User.xIsEmpty()) return default;
         if (context.User.Claims.xIsEmpty()) return default;
@@ -75,7 +75,7 @@ public static class HttpContextExtensions
     /// <param name="claim"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T vGetClaim<T>(this HttpContext context, string claim)
+    public static T xGetClaim<T>(this HttpContext context, string claim)
     {
         if (context.User.xIsEmpty()) return default;
         if (context.User.Claims.xIsEmpty()) return default;
@@ -88,7 +88,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static bool vIsAuthenticated(this HttpContext context)
+    public static bool xIsAuthenticated(this HttpContext context)
     {
         if (context.User.xIsEmpty()) return false;
         if (context.User.Identity.xIsEmpty()) return false;
@@ -101,7 +101,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetMethod(this HttpContext context)
+    public static string xGetMethod(this HttpContext context)
     {
         return context.Request.Method;
     }
@@ -111,7 +111,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetControllerName(this HttpContext context)
+    public static string xGetControllerName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
         return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerName;
@@ -122,7 +122,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetControllerFullName(this HttpContext context)
+    public static string xGetControllerFullName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
         return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerTypeInfo.FullName;
@@ -133,7 +133,7 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetActionName(this HttpContext context)
+    public static string xGetActionName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
         return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ActionName;
@@ -144,9 +144,9 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetUserAgent(this HttpContext context)
+    public static string xGetUserAgent(this HttpContext context)
     {
-        context.vTryGetRequestHeader("User-Agent", out var v);
+        context.xTryGetRequestHeader("User-Agent", out var v);
         return v;
     }
 
@@ -155,9 +155,9 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetAcceptEncoding(this HttpContext context)
+    public static string xGetAcceptEncoding(this HttpContext context)
     {
-        context.vTryGetRequestHeader("Accept-Encoding", out var v);
+        context.xTryGetRequestHeader("Accept-Encoding", out var v);
         return v;
     }
 
@@ -166,9 +166,9 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetAcceptLanguage(this HttpContext context)
+    public static string xGetAcceptLanguage(this HttpContext context)
     {
-        context.vTryGetRequestHeader("Accept-Language", out var v);
+        context.xTryGetRequestHeader("Accept-Language", out var v);
         return v;
     }
 
@@ -177,9 +177,9 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string vGetReferer(this HttpContext context)
+    public static string xGetReferer(this HttpContext context)
     {
-        context.vTryGetRequestHeader("Referer", out var v);
+        context.xTryGetRequestHeader("Referer", out var v);
         return v;
     }
 }

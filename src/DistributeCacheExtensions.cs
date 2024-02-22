@@ -13,11 +13,11 @@ public static class DistributeCacheExtensions
     /// <param name="data"></param>
     /// <param name="options"></param>
     /// <typeparam name="T"></typeparam>
-    public static void vSet<T>(this IDistributedCache cache, string key, T data, DistributedCacheEntryOptions options = null)
+    public static void xSet<T>(this IDistributedCache cache, string key, T data, DistributedCacheEntryOptions options = null)
     {
         if (options.xIsNotEmpty())
         {
-            var exist = cache.vGet<T>(key);
+            var exist = cache.xGet<T>(key);
             if (exist.xIsNotEmpty())
             {
                 cache.Remove(key);
@@ -36,7 +36,7 @@ public static class DistributeCacheExtensions
     /// <param name="key"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T vGet<T>(this IDistributedCache cache, string key)
+    public static T xGet<T>(this IDistributedCache cache, string key)
     {
         var bytes = cache.Get(key);
         return JsonSerializer.Deserialize<T>(bytes.xToString());
