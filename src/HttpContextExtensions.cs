@@ -41,6 +41,36 @@ public static class HttpContextExtensions
     public static bool xTryGetRequestHeader(this HttpContext context, string headerName, out StringValues value) => context.Request.Headers.TryGetValue(headerName, out value);
 
     /// <summary>
+    /// get remote address
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string xGetRemoteIpAddress(this HttpContext context)
+    {   
+        return context.Connection.RemoteIpAddress.ToString();
+    }
+
+    /// <summary>
+    /// get remote port
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string xGetRemotePort(this HttpContext context)
+    {
+        return context.Connection.RemotePort.xValue<string>();
+    }
+
+    /// <summary>
+    /// get remote full ip addresss
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static string xGetRemoteFullIpAddress(this HttpContext context)
+    {
+        return $"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort}";
+    }
+
+    /// <summary>
     /// get user claim role exist
     /// </summary>
     /// <param name="context"></param>
