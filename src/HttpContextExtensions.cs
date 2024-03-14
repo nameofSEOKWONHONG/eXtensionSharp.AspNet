@@ -176,7 +176,7 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetUserAgent(this HttpContext context)
     {
-        context.xTryGetRequestHeader("User-Agent", out var v);
+        context.xTryGetRequestHeader(HttpContextHeaderName.UserAgent, out var v);
         return v;
     }
 
@@ -187,7 +187,7 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetAcceptEncoding(this HttpContext context)
     {
-        context.xTryGetRequestHeader("Accept-Encoding", out var v);
+        context.xTryGetRequestHeader(HttpContextHeaderName.AcceptEncoding, out var v);
         return v;
     }
 
@@ -198,7 +198,7 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetAcceptLanguage(this HttpContext context)
     {
-        context.xTryGetRequestHeader("Accept-Language", out var v);
+        context.xTryGetRequestHeader(HttpContextHeaderName.AcceptLanguage, out var v);
         return v;
     }
 
@@ -209,7 +209,7 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetReferer(this HttpContext context)
     {
-        context.xTryGetRequestHeader("Referer", out var v);
+        context.xTryGetRequestHeader(HttpContextHeaderName.Referer, out var v);
         return v;
     }
 }
