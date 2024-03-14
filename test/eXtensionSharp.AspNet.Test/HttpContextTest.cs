@@ -1,13 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Features;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace eXtensionSharp.AspNet.Test
+﻿namespace eXtensionSharp.AspNet.Test
 {
-	
 	public class HttpContextTest
 	{
 		[SetUp]
@@ -17,7 +9,7 @@ namespace eXtensionSharp.AspNet.Test
 		}
 
 		[Test]
-		public void httpcontext_test() 
+		public void httpcontext_test()
 		{
 			var context = MockHelper.FakeHttpContext();
 
@@ -25,14 +17,33 @@ namespace eXtensionSharp.AspNet.Test
 			var acceptEncoding = context.xGetAcceptEncoding();
 			var acceptLanuage = context.xGetAcceptLanguage();
 
-			var conotrollerName = context.xGetControllerName();
-			var actionName = context.xGetActionName();
-
 			var expectedAcceptEncoding = "gzip, compress, br";
 			var expectedAcceptLanuage = "ko,en;q=0.9,en-US;q=0.8";
+
 			Assert.That(host, Is.EqualTo("http://www.test.com"));
 			Assert.That(acceptEncoding, Is.EqualTo(expectedAcceptEncoding));
 			Assert.That(acceptLanuage, Is.EqualTo(expectedAcceptLanuage));
+		}
+
+		[Test]
+		public void mock_httpcontext_builder_test()
+		{
+			var expectedControllerName = "login";
+			var expectedActionName = "login";
+
+			var context = MockHttpContextBuilder.Create()
+				.WithRequestUrl("https://example.com")
+				.WithRequestBody((new { ID = "test", PW = "test" }).xToJson())
+				.WithControllerName(expectedControllerName)
+				.WithActionName(expectedActionName)
+				.Build();
+
+			var controllerName = context.xGetControllerName();
+			var actionName = context.xGetActionName();
+			
+			Assert.That(context, Is.Not.Null);
+			Assert.That(controllerName, Is.EqualTo(expectedControllerName));
+			Assert.That(actionName, Is.EqualTo(expectedActionName));
 		}
 	}
 }
