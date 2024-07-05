@@ -43,8 +43,8 @@ public static class HttpContextExtensions
     /// <param name="context"></param>
     /// <returns></returns>
     public static string xGetRemoteIpAddress(this HttpContext context)
-    {   
-        return context.Connection.RemoteIpAddress.ToString();
+    {
+        return context.Connection.RemoteIpAddress?.ToString();
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public static class HttpContextExtensions
     {
         if (context.User.xIsEmpty()) return false;
         if (context.User.Identity.xIsEmpty()) return false;
-        if (context.User.Identity.IsAuthenticated.xIsFalse()) return false;
+        if (context.User.Identity!.IsAuthenticated.xIsFalse()) return false;
         
         return context.User.HasClaim(m =>
             m.Type == ClaimTypes.Role && m.Value.Equals(role, StringComparison.OrdinalIgnoreCase));
@@ -141,7 +141,7 @@ public static class HttpContextExtensions
     public static string xGetControllerName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
-        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerName;
+        return context.GetEndpoint()?.Metadata.GetMetadata<ControllerActionDescriptor>()?.ControllerName;
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public static class HttpContextExtensions
     public static string xGetControllerFullName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
-        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ControllerTypeInfo.FullName;
+        return context.GetEndpoint()?.Metadata.GetMetadata<ControllerActionDescriptor>()?.ControllerTypeInfo.FullName;
     }
 
     /// <summary>
@@ -163,7 +163,7 @@ public static class HttpContextExtensions
     public static string xGetActionName(this HttpContext context)
     {
         if (context.xIsEmpty()) return default;
-        return context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>().ActionName;
+        return context.GetEndpoint()?.Metadata.GetMetadata<ControllerActionDescriptor>()?.ActionName;
     }
 
     /// <summary>
