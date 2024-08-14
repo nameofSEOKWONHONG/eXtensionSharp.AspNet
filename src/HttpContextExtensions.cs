@@ -41,10 +41,30 @@ public static class HttpContextExtensions
     /// get remote address
     /// </summary>
     /// <param name="context"></param>
+    /// <param name="isOrigin">true:It doesn't attempt to convert IP6 to IP4. (default. false)</param>
     /// <returns></returns>
-    public static string xGetRemoteIpAddress(this HttpContext context)
+    public static string xGetRemoteIpAddress(this HttpContext context, bool isOrigin = false)
     {
-        return context.Connection.RemoteIpAddress?.ToString();
+        if (context.xIsEmpty()) return string.Empty;
+        if (context.Connection.xIsEmpty()) return string.Empty;
+        if (context.Connection.RemoteIpAddress.xIsEmpty()) return string.Empty;
+        
+        var remoteIp = context.Connection.RemoteIpAddress;
+
+        if (remoteIp == null)
+        {
+            return string.Empty;
+        }
+
+        if (isOrigin) return remoteIp.ToString();
+
+        // Check if it's an IPv4-mapped IPv6 address
+        if (remoteIp.IsIPv4MappedToIPv6)
+        {
+            remoteIp = remoteIp.MapToIPv4();
+        }
+
+        return remoteIp.ToString();
     }
 
     /// <summary>
@@ -52,19 +72,26 @@ public static class HttpContextExtensions
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static string xGetRemotePort(this HttpContext context)
+    public static int? xGetRemotePort(this HttpContext context)
     {
-        return context.Connection.RemotePort.xValue<string>();
+        if (context.xIsEmpty()) return null;
+        if (context.Connection.xIsEmpty()) return null;
+        if (context.Connection.RemoteIpAddress.xIsEmpty()) return null;
+        
+        return context.Connection.RemotePort;
     }
 
     /// <summary>
-    /// get remote full ip addresss
+    /// get remote ip:port addresss
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
     public static string xGetRemoteFullIpAddress(this HttpContext context)
     {
-        return $"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort}";
+        var ip = context.xGetRemoteIpAddress();
+        var port = context.xGetRemotePort();
+        
+        return $"{ip}:{port}";
     }
 
     /// <summary>
@@ -173,8 +200,11 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetUserAgent(this HttpContext context)
     {
-        context.xTryGetRequestHeader(HttpContextHeaderName.UserAgent, out var v);
-        return v;
+        if (context.xTryGetRequestHeader(HttpContextHeaderName.UserAgent, out var v))
+        {
+            return v;
+        }
+        return string.Empty;
     }
 
     /// <summary>
@@ -184,8 +214,11 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetAcceptEncoding(this HttpContext context)
     {
-        context.xTryGetRequestHeader(HttpContextHeaderName.AcceptEncoding, out var v);
-        return v;
+        if (context.xTryGetRequestHeader(HttpContextHeaderName.AcceptEncoding, out var v))
+        {
+            return v;
+        }
+        return string.Empty;
     }
 
     /// <summary>
@@ -195,8 +228,11 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetAcceptLanguage(this HttpContext context)
     {
-        context.xTryGetRequestHeader(HttpContextHeaderName.AcceptLanguage, out var v);
-        return v;
+        if (context.xTryGetRequestHeader(HttpContextHeaderName.AcceptLanguage, out var v))
+        {
+            return v;
+        }
+        return string.Empty;
     }
 
     /// <summary>
@@ -206,7 +242,10 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string xGetReferer(this HttpContext context)
     {
-        context.xTryGetRequestHeader(HttpContextHeaderName.Referer, out var v);
-        return v;
+        if (context.xTryGetRequestHeader(HttpContextHeaderName.Referer, out var v))
+        {
+            return v;
+        }
+        return string.Empty;
     }
 }

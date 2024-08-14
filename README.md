@@ -1,6 +1,10 @@
 # eXtensionSharp.AspNet
 eXtensionSharp for asp.net web application
 
+* v0.0.3
+  * prefix name change "v" to "x".
+  * support remote ip address ip6 to ip4. (xGetRemoteIpAddress)
+
 * v0.0.2
 	* Impl vGetMethod
 	* Impl vGetControllerName
